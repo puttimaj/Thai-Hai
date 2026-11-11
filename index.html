@@ -725,6 +725,30 @@ h1,h2,h3,.title,.wtc b,.hero b,.cdt b,.status b,.sht,.pr-h,body,button,input,tex
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.5px)}}
 @keyframes hiIn{from{opacity:0;transform:translateX(-8px) scale(.96)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.msc *,.mh-hi{animation:none!important}}
+
+/* rounded info rows */
+.line{border-radius:22px!important;padding:12px 14px!important;margin-bottom:8px}
+.lgrp{border-radius:22px;overflow:hidden;margin:10px 0;box-shadow:var(--soft)}
+.lgrp .line{border-radius:0!important;margin:0;box-shadow:none!important}
+.lgrp .line+.line{border-top:1px solid rgba(200,225,230,.6)!important}
+
+.more9{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;color:#fff;background:rgba(20,32,30,.48);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);border-radius:inherit}
+.more9 b{font-size:30px;font-weight:700;line-height:1.1}.more9 span{font-size:13px;font-weight:600}
+
+.pvh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:12px 2px 8px}.pvh .pvl{margin:0}
+.dls{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:600;color:#1D7F8C;padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.75);border:1px solid #CDEBEF;box-shadow:0 3px 8px rgba(40,140,160,.10);white-space:nowrap}
+.dls:active{transform:scale(.97)}
+.two2.sub{grid-template-columns:1fr 1fr}
+.two2.sub .chip{background:transparent!important;border:1px dashed #C6DEE2!important;box-shadow:none!important;color:var(--mute);font-weight:500;font-size:12.5px;padding:9px 6px}
+.two2.sub .chip svg{opacity:.75}
+.two2.sub .chip{white-space:nowrap;font-size:12px;gap:4px;padding:9px 4px}
+
+details.cpol>summary{list-style:none;cursor:pointer;margin:0;user-select:none}
+details.cpol>summary::-webkit-details-marker{display:none}
+.cpv{margin-left:auto;display:flex;color:#1D8F9C;transition:transform .25s}
+details.cpol[open] .cpv{transform:rotate(90deg)}
+details.cpol[open]>summary{margin-bottom:6px}
+details.cpol[open] .cpb{animation:sw .25s ease}
 </style>
 </head>
 <body>
@@ -841,7 +865,7 @@ function mxy(el,x,y){const W=el.clientWidth,H=el.clientHeight,k=Math.max(W/360,H
 function placePins(){document.querySelectorAll('.map').forEach(mp=>mp.querySelectorAll('[data-mx]').forEach(e=>{const[l,t]=mxy(mp,+e.dataset.mx,+e.dataset.my);e.style.left=l+'px';e.style.top=t+'px'}))}
 window.addEventListener('resize',placePins);
 const OV=x=>`<svg class="roads" viewBox="0 0 360 250" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${x}</svg>`;
-const MEDOT=`<circle cx="${ME[0]}" cy="${ME[1]}" r="18" fill="#2F7BFF" opacity=".16"/><circle cx="${ME[0]}" cy="${ME[1]}" r="7" fill="#2F7BFF" stroke="#fff" stroke-width="3"/>`;
+const MEDOT=`<circle cx="${ME[0]}" cy="${ME[1]}" r="7" fill="#2F7BFF" opacity="0"><animate attributeName="r" values="7;30" dur="2.4s" begin="0s" repeatCount="indefinite" calcMode="spline" keySplines=".2 .6 .4 1"/><animate attributeName="opacity" values=".45;0" dur="2.4s" begin="0s" repeatCount="indefinite"/></circle><circle cx="${ME[0]}" cy="${ME[1]}" r="7" fill="#2F7BFF" opacity="0"><animate attributeName="r" values="7;30" dur="2.4s" begin="1.2s" repeatCount="indefinite" calcMode="spline" keySplines=".2 .6 .4 1"/><animate attributeName="opacity" values=".45;0" dur="2.4s" begin="1.2s" repeatCount="indefinite"/></circle><circle cx="${ME[0]}" cy="${ME[1]}" r="15" fill="#2F7BFF" opacity=".16"><animate attributeName="opacity" values=".16;.28;.16" dur="2.4s" repeatCount="indefinite"/></circle><circle cx="${ME[0]}" cy="${ME[1]}" r="7" fill="#2F7BFF" stroke="#fff" stroke-width="3"/>`;
 const VEH={car:{n:'รถยนต์',e:12,s:'กำลังขับรถมาหาคุณ',g:'กำลังขับรถไป',i:'<path d="M4.5 16.5v-4.5l2.2-5h10.6l2.2 5v4.5z"/><path d="M4.5 12h15"/><circle cx="8" cy="16.5" r="1.7"/><circle cx="16" cy="16.5" r="1.7"/>'},
 moto:{n:'มอเตอร์ไซค์',e:9,s:'กำลังขี่มอเตอร์ไซค์มาหาคุณ',g:'กำลังขี่มอเตอร์ไซค์ไป',i:'<circle cx="5.5" cy="16" r="3"/><circle cx="18.5" cy="16" r="3"/><path d="M5.5 16l4.5-6h4.5l4 6M10 10l-1.2-3H6.5M14.5 10h3"/>'},
 bike:{n:'จักรยาน',e:14,s:'กำลังปั่นจักรยานมาหาคุณ',g:'กำลังปั่นจักรยานไป',i:'<circle cx="5.5" cy="16" r="3.3"/><circle cx="18.5" cy="16" r="3.3"/><path d="M5.5 16l4-7h5.5l3.5 7M9.5 9l2.5 7H5.5M13 5.5h3"/>'},
@@ -1196,14 +1220,14 @@ function render(){
     }
     if(s===4){
       h=`<div class="hero hc">${av(p,60)}<div><b style="font-size:18px">${p.n}</b> ${VB}<p style="font-size:13px"><span class="star">★</span> ${p.r} (${p.c} รีวิว)</p>${eqb(p,20)}</div></div>
-      ${[['pin','สถานที่ถ่ายภาพ','สยามสแควร์ กรุงเทพฯ'],['clock','เวลาถ่ายภาพ','30 นาที'],...(INS(p)?[['image','รับภาพ','รูปพิมพ์ 15 ใบ'],['send','ส่งมอบ','ทันทีหลังถ่าย ถึงมือคุณ']]:[['image','รับภาพ','15 ภาพ (ไฟล์ปรับแต่ง)'],['send','ส่งภาพภายใน','48 ชั่วโมง']])].map(l=>`<div class="line"><div class="i">${ic(l[0],20)}</div><div style="flex:1"><small>${l[1]}</small><b>${l[2]}</b></div>${ic('chev',16,2)}</div>`).join('')}
+      <div class="lgrp">${[['pin','สถานที่ถ่ายภาพ','สยามสแควร์ กรุงเทพฯ'],['clock','เวลาถ่ายภาพ','30 นาที'],...(INS(p)?[['image','รับภาพ','รูปพิมพ์ 15 ใบ'],['send','ส่งมอบ','ทันทีหลังถ่าย ถึงมือคุณ']]:[['image','รับภาพ','15 ภาพ (ไฟล์ปรับแต่ง)'],['send','ส่งภาพภายใน','48 ชั่วโมง']])].map(l=>`<div class="line"><div class="i">${ic(l[0],20)}</div><div style="flex:1"><small>${l[1]}</small><b>${l[2]}</b></div>${ic('chev',16,2)}</div>`).join('')}</div>
       <div class="bill"><div class="sum"><span>ค่าบริการ (30 นาที + ${INS(p)?'รูปพิมพ์ 15 ใบ':'15 ภาพ'})</span><span>${p.p} บาท</span></div><div class="sum"><span>ค่าการเดินทาง</span><span>0 บาท</span></div></div>
       <div class="total"><span>ยอดรวมทั้งหมด</span><em>${p.p} บาท</em></div>
       ${CH.find(c=>c.pre&&c.pid===p.id)?`<div class="note">${ic('chat',16)}<span>คุณคุยกับ${p.n}ไว้แล้ว ข้อตกลงในแชทจะแนบไปกับคำจองนี้</span></div>`:''}
       <h3 class="s4h">ความต้องการพิเศษ <small>(ไม่บังคับ)</small></h3>
       <textarea id="req" rows="2" placeholder="เช่น ขอโทนอบอุ่น ถ่ายกับเพื่อน 3 คน อยากได้มุมกับตึก">${S.req||''}</textarea>
       <div class="rqc">${['ขอโทนอบอุ่น','ถ่ายเป็นกลุ่ม','เน้นภาพเต็มตัว','ช่วยจัดท่าให้หน่อย'].map(x=>`<button data-rq="${x}">+ ${x}</button>`).join('')}</div>
-      <div class="cpol"><div class="cph">${ic('receipt',16)}<b>เงื่อนไขการยกเลิก</b></div>${polRows()}<div class="cpn">${ic('help',14)}ถ้าช่างภาพยกเลิกหรือไม่มาตามนัด คืนเงิน 100% + คูปอง 50 บาท</div><button class="lnk" data-sheet="pol">ดูนโยบายคืนเงินทั้งหมด ›</button></div>
+      <details class="cpol"${S.polOpen?' open':''}><summary class="cph">${ic('receipt',16)}<b>เงื่อนไขการยกเลิก</b><span class="cpv">${ic('chev',16,2.4)}</span></summary><div class="cpb">${polRows()}<div class="cpn">${ic('help',14)}ถ้าช่างภาพยกเลิกหรือไม่มาตามนัด คืนเงิน 100% + คูปอง 50 บาท</div><button class="lnk" data-sheet="pol">ดูนโยบายคืนเงินทั้งหมด ›</button></div></details>
       <h3 style="margin:10px 0">เลือกวิธีการชำระเงิน</h3>
       ${[['card','บัตรเครดิต / เดบิต'],['pp','PromptPay'],['tm','ทรูมันนี่ วอลเล็ท']].map(x=>`<button class="pay ${S.pay===x[0]?'sel':''}" data-pay="${x[0]}"><div class="radio">${S.pay===x[0]?ic('ck',14,3):''}</div>${PI[x[0]]}<span>${x[1]}</span></button>`).join('')}`;
       f.innerHTML=`<div class="foot"><button class="cta" id="go" ${S.pay?'':'disabled'}>${S.pay?'ยืนยันคำจอง':'เลือกวิธีชำระเงินก่อน'}</button><p style="text-align:center;font-size:12px;color:var(--mute);margin-top:8px;display:flex;justify-content:center;gap:4px;align-items:center">${ic('lock',13)}กดยืนยันถือว่ายอมรับเงื่อนไขการยกเลิกและคืนเงิน</p></div>`;
@@ -1255,7 +1279,7 @@ function render(){
       h=(S.trk?SB(p,4):'')+`<div class="status"><div class="ck">${ic('ck',22,3)}</div><div style="flex:1"><b>ส่งมอบรูปเรียบร้อย</b><small>รูปพิมพ์ครบ 15 ใบ ถึงมือคุณแล้ว</small></div>${ic('image',24)}</div>
       <div class="dcard">${[['cam','กล้องที่ใช้',md],['image','สิ่งที่ได้รับ','รูปพิมพ์ 15 ใบ'],['pin','ส่งมอบที่','สยามสแควร์ กรุงเทพฯ'],['clock','ส่งมอบเมื่อ','วันนี้ · '+now()]].map(l=>`<div class="dr"><span class="di">${ic(l[0],18)}</span><small>${l[1]}</small><b>${l[2]}</b></div>`).join('')}</div>
       <p class="tip">${ic('help',16)}เก็บรูปพิมพ์ให้พ้นแดดและความชื้น สีจะคงสวยไปนาน</p>
-      <button class="cta ${S.rcv?'ok':''}" id="rcv" style="margin:12px 0">${S.rcv?ic('ck',20,3)+'ยืนยันรับรูปแล้ว จบงานเรียบร้อย':'ยืนยันว่าได้รับรูปครบแล้ว'}</button>
+      <button class="cta ${S.rcv?'ok':''}" id="rcv" style="margin:12px 0">${S.rcv?ic('ck',20,3)+'รับรูปเรียบร้อยแล้ว':'ยืนยันรับรูป'}</button>
       <h3>รีวิวช่างภาพ</h3><div class="stars">${[1,2,3,4,5].map(i=>`<button data-r="${i}" class="${i<=S.rate?'on':''}" aria-label="${i} ดาว">★</button>`).join('')}</div>
       <div class="input"><input id="rvt" placeholder="เขียนรีวิว (ไม่บังคับ)"><button id="sd">ส่งรีวิว</button></div>
       <button class="chip" id="again" style="margin-top:16px;width:100%;justify-content:center">กลับสู่หน้าหลัก</button>`;
@@ -1263,13 +1287,12 @@ function render(){
     else if(s===6){
       const ok=S.rcv,dd=new Date(Date.now()+30*864e5),exp=dd.getDate()+' '+['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'][dd.getMonth()],res={phone:'4032 × 3024',compact:'3648 × 2736',film:'4500 × 3000 (สแกนฟิล์ม)'}[p.eq]||'6000 × 4000',rq=S.trk?S.lastReq:'';
       h=(S.trk?SB(p,4):'')+`<div class="status"><div class="ck">${ic('ck',22,3)}</div><div style="flex:1"><b>ส่งมอบไฟล์ครบแล้ว</b><small>ไฟล์ฉบับสมบูรณ์ 15 ภาพ จาก${p.n}</small></div>${ic('image',24)}</div>
-      <p class="pvl">ตัวอย่าง 6 จาก 15 ภาพ</p>
-      <div class="grid">${[0,1,2,3,4,5].map(i=>`<div class="ph">${p&&RES[p.id]?`<img src="${RES[p.id][i]}" alt="ภาพของคุณ ${i+1}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">`:scene(i)}</div>`).join('')}</div>
+      <div class="pvh"><p class="pvl">ตัวอย่าง 6 จาก 15 ภาพ</p><button class="dls" id="dl">${ic('dl',15,2.2)}ดาวน์โหลดทั้งหมด</button></div>
+      <div class="grid">${[0,1,2,3,4,5].map(i=>`<div class="ph">${p&&RES[p.id]?`<img src="${RES[p.id][i]}" alt="ภาพของคุณ ${i+1}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">`:scene(i)}${i===5?`<button class="more9" data-t="ดูภาพทั้งหมด 15 ภาพ"><b>+9</b><span>ดูภาพเพิ่มเติม</span></button>`:''}</div>`).join('')}</div>
       <div class="dlv"><div class="dlh">${ic('dl',17)}<b>ไฟล์ที่คุณได้รับ</b></div>${[['รูปแบบไฟล์','JPG ความละเอียดเต็ม'],['ขนาดภาพ',res+' px'],['การปรับแต่ง','ปรับแสง สี และผิวทุกภาพ'],['จำนวน / ขนาดรวม','15 ไฟล์ · 186 MB'],['ดาวน์โหลดได้ถึง',exp+' (30 วัน)']].map(r=>`<div class="dlr"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}</div>
       <div class="dlv"><div class="dlh">${ic('ck',17,2.4)}<b>ตรงตามที่ตกลงไว้</b></div>${[['จำนวนภาพครบ 15/15 ภาพ',1],['ไฟล์ปรับแต่งพร้อมใช้งาน',1],['ส่งภายใน 48 ชั่วโมงตามกำหนด',1],...(rq?[['ความต้องการพิเศษ: '+rq,1]]:[]),['ไฟล์ RAW · ไม่รวมในแพ็กเกจ',0]].map(r=>`<div class="chk ${r[1]?'':'no'}"><span>${r[1]?ic('ck',11,3.4):'–'}</span>${r[0]}</div>`).join('')}</div>
-      <button class="cta" id="dl" style="margin:12px 0 8px">${ic('dl',20)}ดาวน์โหลดทั้งหมด (.zip · 186 MB)</button>
-      <div class="two2"><button class="chip" id="rev">${ic('chat',16)}ขอแก้ไขภาพ (ฟรี 1 ครั้ง)</button><button class="chip" id="miss">${ic('help',16)}ภาพไม่ครบ</button></div>
-      <button class="cta ${ok?'ok':'mint'}" id="rcv" style="margin:10px 0 6px">${ok?ic('ck',20,3)+'ยืนยันรับงานแล้ว':'ยืนยันรับไฟล์ครบถ้วน'}</button>
+      <button class="cta ${ok?'ok':'mint'}" id="rcv" style="margin:14px 0 8px">${ok?ic('ck',20,3)+'รับภาพเรียบร้อยแล้ว':'ยืนยันรับภาพ'}</button>
+      <div class="two2 sub"><button class="chip" id="rev">${ic('chat',15)}ขอแก้ไขภาพ (ฟรี 1 ครั้ง)</button><button class="chip" id="miss">${ic('help',15)}ได้รับงานไม่ครบ</button></div>
       <p class="tip">${ic('help',16)}หากไม่ยืนยันภายใน 3 วัน ระบบจะยืนยันรับงานให้อัตโนมัติ และโอนเงินให้ช่างภาพ</p>
       <h3>รีวิวช่างภาพ</h3><div class="stars">${[1,2,3,4,5].map(i=>`<button data-r="${i}" class="${i<=S.rate?'on':''}" aria-label="${i} ดาว">★</button>`).join('')}</div>
       <div class="input"><input id="rvt" placeholder="เขียนรีวิว (ไม่บังคับ)"><button id="sd">ส่งรีวิว</button></div>
@@ -1330,6 +1353,7 @@ function bind(){
   q('[data-sheet]',b=>b.onclick=()=>{const k=b.dataset.sheet;if(k==='pol')sheet(POL());else if(k==='vfy')sheet(VSH(S.ph))});
   q('[data-bookpre]',b=>b.onclick=()=>{S.ph=P(b.dataset.bookpre);S.pay=S.pay||null;go(4)});
   q('[data-rq]',b=>b.onclick=()=>{const r=$('#req');r.value=(r.value.trim()?r.value.trim()+' · ':'')+b.dataset.rq;S.req=r.value});
+  const cpd=document.querySelector('details.cpol');if(cpd)cpd.ontoggle=()=>{S.polOpen=cpd.open};
   const rqx=$('#req');if(rqx)rqx.oninput=()=>{S.req=rqx.value};
   const pch=$('#pchat');if(pch)pch.onclick=()=>openPre(S.ph);
   const cxl=$('#cancel');if(cxl)cxl.onclick=cancelSheet;
